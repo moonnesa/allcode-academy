@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify</title>
+    <link rel="stylesheet" href="./css/main.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="images/banner.jpeg" alt="banner">
+            <div class="overlay">
+    
+            </div>
+            <div class="banner-content">
+                <h1>Playlist</h1>
+                <p>
+                    Browse our library of songs and play directly in the app.
+                </p>
+            </div>
+            
+        </header>
+        <main>
+            <div class="search">
+                <input id="search-input" type="text" placeholder="Search a song ....">
+            </div>
+            <div class="playlist">
+               
+                <div id="song" class="song-1">
+                    <p class="song-order">
+                        1
+                    </p>
+                    <img class="play-icon" src="./images/play-button.png" alt="play-icon">
+                    <p class="song-details">
+                        Why This Kolaveri Di <span class="artist">Danush Anirudh</span>
+                    </p>
+                    <button class="more-details-button">...</button>
+                    <p class="album-or-film">
+                        Film: 3 (2012)
+                    </p>
+                </div>
+                <div id="song" class="song-2">
+                    <p class="song-order">
+                        2
+                    </p>
+                    <img class="play-icon" src="./images/play-button.png" alt="play-icon">
+                    <p class="song-details">
+                        Do You Know <span class="artist">Diljit Dosanjh</span>
+                    </p>
+                    <button class="more-details-button">...</button>
+                    <p class="album-or-film">
+                        Album: In Love With Diljit Dosanjh (2021)
+                    </p>
+                </div>
+                <div id="song" class="song-3">
+                    <p class="song-order">
+                        3
+                    </p>
+                    <img class="play-icon" src="./images/play-button.png" alt="play-icon">
+                    <p class="song-details">
+                       Shallow <span class="artist">Lady Gaga, Bradley Cooper</span>
+                    </p>
+                    <button class="more-details-button">...</button>
+                    <p class="album-or-film">
+                        Film: A Star Is Born (2018)
+                    </p>
+                </div>
+                <div id="song"class="song-4">
+                    <p class="song-order" >
+                        4
+                    </p>
+                    <img class="play-icon" src="./images/play-button.png" alt="play-icon">
+                    <p class="song-details">
+                       Na Ja <span class="artist">Pav Dharia</span>
+                    </p>
+                    <button class="more-details-button">...</button>
+                    <p class="album-or-film">
+                        Single: Punjabi Songs
+                    </p>
+                </div>
+                <div id="song" class="song-5">
+                    <p class="song-order">
+                        5
+                    </p>
+                    <img class="play-icon" src="./images/play-button.png" alt="play-icon">
+                    <p class="song-details">
+                       Yeh Dil Deewana <span class="artist">Sonu Nigam</span>
+                    </p>
+                    <button class="more-details-button">...</button>
+                    <p class="album-or-film">
+                        Film: Pardes (1997)
+                    </p>
+                </div>
+            </div> 
+        </main>
+    </div>
+    <footer id="player">
+        <div class="player-controls">
+            <button class="player-play-btn" data-playing="false">
+                <div class="player-icon-play">
+                    <img src="images/play-button.png" alt="">
+                </div>
+                <div class="player-icon-pause hidden">
+                    <img src="images/pause-button.png" alt="">
+                </div>
+            </button>
+            <div class="player-timeline">
+                <span class="player-time player-time-current">0:0</span>
+                <div class="player-progress">
+                    <div class="player-progress-filled"></div>
+                </div>
+                <span class="player-time player-time-duration">0:0</span>
+            </div>
+        </div>
+        <audio src="songs/3 - Why This Kolaveri Di Official Video _ Dhanush, Anirudh (320).mp3" > Your browser dose not support the audio element.  </audio>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>

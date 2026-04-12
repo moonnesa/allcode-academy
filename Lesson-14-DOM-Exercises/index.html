@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Exercises</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .navbar {
+            background: green;
+            color: white;
+            padding: 15px;
+        }
+        .navbar-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-button {
+            border: none;
+            background: blue;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .task-content {
+            width: 15%;
+            margin: 5rem;
+        }
+        .task-button {
+            background: cyan;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .progress-bar {
+            position: relative;
+            height: 30px;
+            background: #999;
+            
+        }
+        .progress-bar-filled {
+            height: 30px;
+            background: green;
+            width: 0%; 
+        }
+        .percentage {
+            display: flex;
+            justify-content: center;
+            
+        }
+
+        .slideshow-items {
+            display: flex;
+            object-fit: cover;
+            justify-content: space-between;
+        }
+
+        img {
+            width: 90%;
+            height: 100%;
+            
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!--This is a comment-->
+    <nav class="navbar">
+        <div class="navbar-info">
+            <div class="title">
+                <h3>Company Name</h3>
+            </div>
+            <div>
+                <button class="menu-button">Menu</button>
+            </div>
+        </div>
+        <div class="navbar-items hidden">
+            <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Contact</li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Add rows to an empty table-->
+    <ul class="list"></ul>
+
+    <!--Create a progress bar that updates its width based on the task completion -->
+
+    <div class="task-content">
+        <p>
+            <span class="completed-tasks">0</span>/ <span class="total-tasks">0</span> tasks complete
+        </p>
+        <button class="task-button">
+            Run Task
+        </button>
+        
+        <div class="progress-bar">
+            <div class="progress-bar-filled"><span class="percentage">0%</span>
+            </div>    
+         </div>
+    </div>
+
+    <!--Write a JavaScript program to create a slideshow that changes the displayed image when a next or previous button is clicked. Add an animation to the sliding for extra credit!-->
+    <div class="slideshow-items">
+        <button class="previous-btn">Previous</button>
+        <img src="./images/IMG_1408ab.jpg" alt="">
+        <button class="next-btn">Next</button>
+    </div>
+
+    <script>
+        
+        const menuButton = document.querySelector(".menu-button");
+        const navItems = document.querySelector(".navbar-items");
+        let open = false;
+
+        menuButton.addEventListener("click", () => {
+            if (!open) {
+                navItems.classList.remove("hidden");
+                open = true;
+            }else {
+                navItems.classList.add("hidden");
+                open = false;
+            }
+        });
+
+        const list = document.querySelector(".list");
+        const shoppingList = [
+            "Appels",
+            "Bread",
+            "Milk",
+            "Candy",
+            "Lamb"
+        ];
+
+        window.addEventListener("load", () => {
+            let listItems = [];
+            for (let i = 0; i<shoppingList.length; i++){ 
+                let newItem = document.createElement("li");
+                newItem.innerHTML = shoppingList[i];
+                list.appendChild(newItem);
+            }        
+        });
+
+
+        const taskButton = document.querySelector(".task-button");
+        const completedTasks = document.querySelector(".completed-tasks");
+        const totalTasksText = document.querySelector(".total-tasks");
+        const progress = document.querySelector(".progress-bar-filled");
+        const percentage = document.querySelector(".percentage");
+
+        let totalTasks = 13;
+        let completedTask = 0;
+
+        window.addEventListener("load", () => {
+            totalTasksText.innerHTML = totalTasks;
+
+            taskButton.addEventListener("click", () => {
+                if (!(completedTask >= totalTasks)) {
+                    completedTask++;
+                    completedTasks.innerHTML = completedTask;
+                    progress.style.width = ((completedTask / totalTasks) * 100) + "%";
+                    percentage.innerHTML = ((completedTask / totalTasks) * 100) + "%";
+                }
+                
+            });
+
+        });
+
+        const slides = document.querySelector("img");
+        const previous = document.querySelector(".previous-btn"); 
+        const next = document.querySelector(".next-btn"); 
+        var fs = require('fs');
+
+        var imageList = fs.readdir("./images");
+
+        console.log(imageList[0]);
+
+
+    </script>
+</body>
+</html>         
