@@ -1,0 +1,17 @@
+services:
+  server:
+    build: ./server
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server/prisma:/app/prisma
+    environment:
+      DATABASE_URL: "file:/app/prisma/db.sqlite"
+      PORT: 4000
+
+  client:
+    build: ./client
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
