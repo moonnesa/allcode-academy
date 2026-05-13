@@ -1,0 +1,13 @@
+datasource db {
+  provider = "sqlite"
+}
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+model Image {
+  id        Int      @id @default(autoincrement())
+  fileName  String   
+  filePath  String   
+  name      String?
+}
