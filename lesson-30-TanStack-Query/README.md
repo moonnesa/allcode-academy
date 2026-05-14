@@ -19,10 +19,10 @@ A React frontend built as part of the AllCode Academy fullstack course. Demonstr
 
 ## Features
 
-- **Fetch products** from [dummyjson.com](https://dummyjson.com) using `useQuery`
-- **Add a product** using `useMutation` with a controlled form
-- Success feedback message that disappears after 3 seconds
-- Loading and error states handled per page
+- **Fetch all products** from [dummyjson.com](https://dummyjson.com) using `useQuery`
+- **View product details** — klikk på et produkt for å se detaljside med suksessmelding i 3 sekunder
+- **Add a product** using `useMutation` med kontrollert skjema, med auto-reload etter 3 sekunder
+- Loading og error states håndtert per side
 
 ---
 
@@ -31,16 +31,18 @@ A React frontend built as part of the AllCode Academy fullstack course. Demonstr
 ```
 src/
 ├── lib/
-│   ├── axios.jsx          # Axios instance with base URL
+│   ├── axios.jsx              # Axios instance with base URL
 │   ├── queries/
-│   │   └── getProducts.jsx  # useQuery fetcher function
+│   │   ├── getProducts.jsx    # Fetches all products
+│   │   └── getProduct.jsx     # Fetches single product by ID
 │   └── mutations/
-│       └── postProduct.jsx  # useMutation poster function
+│       └── postProduct.jsx    # Posts a new product
 ├── pages/
-│   ├── Home.jsx           # Product list page
-│   └── AddProduct.jsx     # Add product form page
-├── App.jsx                # Routes and nav
-└── main.jsx               # QueryClientProvider + BrowserRouter setup
+│   ├── Home.jsx               # Product list with links to detail pages
+│   ├── Product.jsx            # Single product detail page
+│   └── AddProduct.jsx         # Add product form
+├── App.jsx                    # Routes and nav
+└── main.jsx                   # QueryClientProvider + BrowserRouter setup
 ```
 
 ---
@@ -65,39 +67,60 @@ The app runs on `http://localhost:5173` by default.
 
 ## Key Concepts
 
-### useQuery (fetching data)
+### useQuery — hente alle produkter (Home.jsx)
 
 ```jsx
-const { data, isPending, isError } = useQuery({
+const { data: products, isPending, isLoading, isError } = useQuery({
   queryKey: ['products'],
   queryFn: getProducts,
 });
+
+if (isLoading || isPending) return <p>Loading...</p>;
 ```
 
-> **Note:** Use `isPending` (not `isLoading`) in TanStack Query v5 to check if data is being fetched for the first time.
+### useQuery — hente enkelt produkt (Product.jsx)
 
-### useMutation (posting data)
+`queryKey` inkluderer `id` så TanStack Query cacher hvert produkt separat:
 
 ```jsx
-const mutation = useMutation({
-  mutationFn: (formData) => postProduct(formData),
+const { data, isPending, isLoading, isError, isSuccess } = useQuery({
+  queryKey: ['product', id],
+  queryFn: () => getProduct(id),
 });
-
-mutation.mutate({ title: 'New Product', price: 9.99 });
 ```
 
-### Timed success message with useEffect
+> **Note:** Bruk `isPending || isLoading` for å dekke både første fetch og refetch i TanStack Query v5.
+
+### useMutation — legge til produkt (AddProduct.jsx)
+
+```jsx
+const newProduct = useMutation({
+  mutationFn: () => postProduct({ title: formData.title, price: formData.price }),
+  onSuccess: () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
+  }
+});
+
+// Trigger mutation på knappeklikk
+<button type='button' onClick={() => newProduct.mutate()}>Add Product</button>
+```
+
+> **Note:** Bruk `type='button'` på submit-knappen — `type='submit'` refresher siden og nuller ut mutation-state før suksessmeldingen vises.
+
+### Timed success message med useEffect (Product.jsx)
 
 ```jsx
 const [showSuccess, setShowSuccess] = useState(false);
 
 useEffect(() => {
-  if (mutation.isSuccess) {
+  if (isSuccess) {
     setShowSuccess(true);
     const timer = setTimeout(() => setShowSuccess(false), 3000);
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // cleanup ved unmount
   }
-}, [mutation.isSuccess]);
+}, [isSuccess]);
 ```
 
 ---
@@ -109,4 +132,5 @@ Uses the public [dummyjson.com](https://dummyjson.com) REST API.
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/products` | Fetch all products |
+| GET | `/products/:id` | Fetch single product by ID |
 | POST | `/products/add` | Add a new product |
